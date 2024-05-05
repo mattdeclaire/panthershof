@@ -1,5 +1,5 @@
 ---
-import { getPlayers } from "../../models/player";
+import { getPlayers } from "@models/player";
 
 export async function getStaticPaths() {
     const players = await getPlayers();
