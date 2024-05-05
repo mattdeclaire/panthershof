@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@layouts/*": ["src/layouts/*"],
       "@models/*": ["src/models/*"]
     }
   }

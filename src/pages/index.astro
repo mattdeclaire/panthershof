@@ -1,21 +1,12 @@
 ---
+import PageLagout from "@layouts/page.astro";
 import { getPlayers } from "@models/player";
 const players = await getPlayers();
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Panthers Hall of Fame</title>
-	</head>
-	<body>
-		<h1>Panthers Hall of Fame</h1>
-
-		<ul>
-			{players.map((player) => (
-				<li><a href={`/players/${player.slug}`}>{player.name}</a></li>
-			))}
-		</ul>
-	</body>
-</html>
+<PageLagout>
+	<ul>
+		{players.map((player) => (
+			<li><a href={`/players/${player.slug}`}>{player.name}</a></li>
+		))}
+	</ul>
+</PageLagout>
