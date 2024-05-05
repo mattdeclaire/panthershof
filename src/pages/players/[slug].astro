@@ -1,0 +1,37 @@
+---
+import { contentfulClient } from "../../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import type { Player } from '../../lib/contentful';
+
+export async function getStaticPaths() {
+    const playerEntries = await contentfulClient.getEntries<Player>({
+        content_type: "player",
+    });
+
+
+    const pages = playerEntries.items.map(player => ({
+        params: { slug: player.fields.slug },
+        props: {
+            name: player.fields.name,
+            graduationYear: player.fields.graduationYear,
+            bio: documentToHtmlString(player.fields.bio),
+        },
+    }));
+
+    return pages;
+}
+
+const player = Astro.props;
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Panthers Hall of Fame</title>
+	</head>
+	<body>
+        <h1>{player.name}</h1>
+        <h2>{player.graduationYear}</h2>
+        <div set:html={player.bio}></div>
+	</body>
+</html>
