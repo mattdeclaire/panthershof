@@ -8,7 +8,7 @@ interface ContentfulPlayer {
 		name: EntryFieldTypes.Text,
 		slug: EntryFieldTypes.Text,
 		graduationYear: EntryFieldTypes.Integer,
-		headshot: {fields: {file: {url: string }}},
+		headshot: EntryFieldTypes.AssetLink,
 		bio: EntryFieldTypes.RichText,
 	}
 }
@@ -17,22 +17,36 @@ export interface Player {
     name: string,
     slug: string,
     graduationYear: number,
-    headshot: string,
-    bio: string,
+	bio: string,
+
+    headshot: {
+		title: string,
+		description: string,
+		file: {
+			url: string,
+			details: {
+				size: number,
+				image: {
+					width: number,
+					height: number,
+				}
+			}
+		},
+	},
 }
 
-export async function getPlayers(): Promise<Player[]> {
+export async function getPlayers() {
 	const playerEntries = await contentfulClient.getEntries<ContentfulPlayer>({
         content_type: "player",
     });
 
-	const players = playerEntries.items.map((player): Player => ({
+	const players = await Promise.all(playerEntries.items.map(async (player) => ({
 		name: player.fields.name,
 		slug: player.fields.slug,
 		graduationYear: player.fields.graduationYear,
-		headshot: player.fields.headshot.fields.file.url || 'http://placekitten.com/200/300',
+		headshot: (await contentfulClient.getAsset(player.fields.headshot.sys.id)).fields,
 		bio: documentToHtmlString(player.fields.bio),
-	}));
+	})));
 
 	return players;
 }
