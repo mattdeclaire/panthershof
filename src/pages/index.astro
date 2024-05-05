@@ -7,7 +7,7 @@ const players = await getPlayers();
 <PageLagout>
 	<div class="flex gap-5">
 		{players.map((player) => (
-			<a href={`/players/${player.slug}`}>
+			<a href={`/${player.slug}`}>
 				<HeadshotImage player={player} width="150" height="200" />
 				{player.name}
 			</a>
