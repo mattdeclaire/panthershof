@@ -1,6 +1,7 @@
 ---
 import PageLagout from "@layouts/page.astro";
 import { getPlayers } from "@models/player";
+import HeadshotImage from "@components/headshot-image.astro";
 
 export async function getStaticPaths() {
     const players = await getPlayers();
@@ -14,12 +15,12 @@ export async function getStaticPaths() {
 const player = Astro.props;
 ---
 <PageLagout title={player.name}>
-    <h1>{player.name}</h1>
-    <h2>{player.graduationYear}</h2>
-    <div set:html={player.bio}></div>
-    <img
-        src=`${player.headshot.file?.url}?w=150&h=200&fit=fill`
-        width="150" height="200"
-        alt={player.headshot.title}
-    />
+    <div class="flex gap-5">
+        <HeadshotImage player={player} width="300" height="400" />
+        <div>
+            <h1 class="text-xl">{player.name}</h1>
+            <h2 class="text-lg">{player.graduationYear}</h2>
+            <div set:html={player.bio}></div>
+        </div>
+    </div>
 </PageLagout>

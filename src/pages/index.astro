@@ -1,12 +1,16 @@
 ---
 import PageLagout from "@layouts/page.astro";
+import HeadshotImage from "@components/headshot-image.astro";
 import { getPlayers } from "@models/player";
 const players = await getPlayers();
 ---
 <PageLagout>
-	<ul>
+	<div class="flex gap-5">
 		{players.map((player) => (
-			<li><a href={`/players/${player.slug}`}>{player.name}</a></li>
+			<a href={`/players/${player.slug}`}>
+				<HeadshotImage player={player} width="150" height="200" />
+				{player.name}
+			</a>
 		))}
-	</ul>
+	</div>
 </PageLagout>

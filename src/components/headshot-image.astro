@@ -1,0 +1,9 @@
+---
+const { player, width, height } = Astro.props;
+---
+<img
+    src=`${player.headshot.file?.url}?w=${width}&h=${height}&fit=fill`
+    width={width}
+    height={height}
+    alt={player.headshot.title}
+/>

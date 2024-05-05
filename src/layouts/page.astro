@@ -8,10 +8,14 @@ const { title } = Astro.props;
 		<title>{title &&  `${title} |`} Panthers Hall of Fame</title>
 	</head>
 	<body>
-        <header>
-            <a href="/">Panthers Hall of Fame</a>
+        <header class="p-5">
+            <a href="/" class="text-xl">
+                Panthers Hall of Fame
+            </a>
         </header>
 
-        <slot />
+        <div class="p-10">
+            <slot />
+        </div>
 	</body>
 </html>
