@@ -23,9 +23,8 @@ const player = Astro.props;
         <h2>{player.graduationYear}</h2>
         <div set:html={player.bio}></div>
         <img
-            src=`${player.headshot.file?.url}`
-            width=`${player.headshot.file?.details.image?.width}`
-            height=`${player.headshot.file?.details.image?.height}`
+            src=`${player.headshot.file?.url}?w=150&h=200&fit=fill`
+            width="150" height="200"
             alt=`${player.headshot.title}`
         />
 	</body>
