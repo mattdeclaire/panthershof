@@ -8,6 +8,7 @@ interface ContentfulPlayer {
 		name: EntryFieldTypes.Text,
 		slug: EntryFieldTypes.Text,
 		graduationYear: EntryFieldTypes.Integer,
+		headshot: {fields: {file: {url: string }}},
 		bio: EntryFieldTypes.RichText,
 	}
 }
@@ -16,6 +17,7 @@ export interface Player {
     name: string,
     slug: string,
     graduationYear: number,
+    headshot: string,
     bio: string,
 }
 
@@ -28,6 +30,7 @@ export async function getPlayers(): Promise<Player[]> {
 		name: player.fields.name,
 		slug: player.fields.slug,
 		graduationYear: player.fields.graduationYear,
+		headshot: player.fields.headshot.fields.file.url || 'http://placekitten.com/200/300',
 		bio: documentToHtmlString(player.fields.bio),
 	}));
 
