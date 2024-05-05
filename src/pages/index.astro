@@ -1,11 +1,14 @@
 ---
 import { contentfulClient } from "../lib/contentful";
 import type { EntryFieldTypes } from "contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 interface Player {
 	contentTypeId: "player",
 	fields: {
 		name: EntryFieldTypes.Text,
+		graduationYear: EntryFieldTypes.Integer,
+		bio: EntryFieldTypes.RichText,
 	}
 }
 
@@ -22,10 +25,11 @@ const players = await contentfulClient.getEntries<Player>({
 	</head>
 	<body>
 		<h1>Panthers Hall of Fame</h1>
-		<ul>
-			{players.items.map((player) => (
-				<li>{player.fields.name}</li>
-			))}
-		</ul>
+
+		{players.items.map((player) => (
+			<h2>{player.fields.name}</h2>
+			<h3>{player.fields.graduationYear}</h3>
+			<div set:html={documentToHtmlString(player.fields.bio)}></div>
+		))}
 	</body>
 </html>
