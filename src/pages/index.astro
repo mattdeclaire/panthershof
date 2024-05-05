@@ -1,5 +1,17 @@
 ---
+import { contentfulClient } from "../lib/contentful";
+import type { EntryFieldTypes } from "contentful";
 
+interface Player {
+	contentTypeId: "player",
+	fields: {
+		name: EntryFieldTypes.Text,
+	}
+}
+
+const players = await contentfulClient.getEntries<Player>({
+	content_type: "player",
+});
 ---
 
 <html lang="en">
@@ -10,5 +22,10 @@
 	</head>
 	<body>
 		<h1>Panthers Hall of Fame</h1>
+		<ul>
+			{players.items.map((player) => (
+				<li>{player.fields.name}</li>
+			))}
+		</ul>
 	</body>
 </html>
