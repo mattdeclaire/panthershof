@@ -12,8 +12,17 @@ interface Player {
 	}
 }
 
-const players = await contentfulClient.getEntries<Player>({
+const playerEntries = await contentfulClient.getEntries<Player>({
 	content_type: "player",
+});
+
+const players = playerEntries.items.map((player) => {
+	const { name, graduationYear, bio } = player.fields;
+	return {
+		name,
+		graduationYear,
+		bio: documentToHtmlString(bio),
+	};
 });
 ---
 
@@ -26,10 +35,10 @@ const players = await contentfulClient.getEntries<Player>({
 	<body>
 		<h1>Panthers Hall of Fame</h1>
 
-		{players.items.map((player) => (
-			<h2>{player.fields.name}</h2>
-			<h3>{player.fields.graduationYear}</h3>
-			<div set:html={documentToHtmlString(player.fields.bio)}></div>
+		{players.map((player) => (
+			<h2>{player.name}</h2>
+			<h3>{player.graduationYear}</h3>
+			<div set:html={player.bio}></div>
 		))}
 	</body>
 </html>
