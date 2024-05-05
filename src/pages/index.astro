@@ -1,18 +1,6 @@
 ---
-import { contentfulClient } from "../lib/contentful";
-import type { Player } from '../lib/contentful';
-
-const playerEntries = await contentfulClient.getEntries<Player>({
-	content_type: "player",
-});
-
-const players = playerEntries.items.map((player) => {
-	const { name, graduationYear, slug, bio } = player.fields;
-	return {
-		name,
-		slug,
-	};
-});
+import { getPlayers } from "../models/player";
+const players = await getPlayers();
 ---
 
 <html lang="en">

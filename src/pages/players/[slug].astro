@@ -1,24 +1,13 @@
 ---
-import { contentfulClient } from "../../lib/contentful";
-import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-import type { Player } from '../../lib/contentful';
+import { getPlayers } from "../../models/player";
 
 export async function getStaticPaths() {
-    const playerEntries = await contentfulClient.getEntries<Player>({
-        content_type: "player",
-    });
+    const players = await getPlayers();
 
-
-    const pages = playerEntries.items.map(player => ({
-        params: { slug: player.fields.slug },
-        props: {
-            name: player.fields.name,
-            graduationYear: player.fields.graduationYear,
-            bio: documentToHtmlString(player.fields.bio),
-        },
+    return players.map(player => ({
+        params: { slug: player.slug },
+        props: player,
     }));
-
-    return pages;
 }
 
 const player = Astro.props;
